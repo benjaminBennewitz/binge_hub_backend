@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'bingeHub',
+    'django_registration',
+    'main',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +150,10 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'auth.User'
+
+# Configuration for django-registration
+ACCOUNT_ACTIVATION_DAYS = 1
+
+# Configure Django registration
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'admin@bingehub.com'

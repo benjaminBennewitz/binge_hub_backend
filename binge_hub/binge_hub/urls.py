@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.urls import path
 
-from bingeHub import views
-from bingeHub.views import LoginView, RegisterView
+from main import views
+from main.views import LoginView, RegisterView
 
 # URL patterns for the Ticketeer application
 # This configuration routes URLs to views.
