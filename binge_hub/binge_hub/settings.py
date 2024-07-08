@@ -47,8 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'bingeHub',
     'corsheaders',
+    'bingeHub',
 ]
 
 MIDDLEWARE = [
@@ -148,5 +148,4 @@ REST_FRAMEWORK = {
     ),
 }
 
-# settings.py
 AUTH_USER_MODEL = 'auth.User'
