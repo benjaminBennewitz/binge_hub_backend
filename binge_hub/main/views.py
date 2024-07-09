@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -12,6 +11,11 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import AuthenticationFailed
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+from django_registration.backends.activation.views import ActivationView as BaseActivationView
 
 
 class LoginView(ObtainAuthToken):
@@ -31,9 +35,15 @@ class LoginView(ObtainAuthToken):
             Response: JSON response containing authentication token and user details.
         """
         serializer = self.serializer_class(
-            data=request.data, context={'request': request})
+            data=request.data, context={'request': request}
+        )
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+        
+        # Check if user is activated (assuming 'is_active' is a field in your User model)
+        if not user.is_active:
+            raise AuthenticationFailed('User account is not activated.')
+
         token, created = Token.objects.get_or_create(user=user)
         return Response({
             'token': token.key,
@@ -64,4 +74,23 @@ class RegisterView(generics.CreateAPIView):
             Response: JSON response indicating success or failure of registration.
         """
         response = super().create(request, *args, **kwargs)
-        return Response({'message': 'Registration successful'}, status=response.status_code)
+        user = response.data.get('user')  # Assuming your serializer returns 'user' in response data
+
+        # Send activation email
+        current_site = get_current_site(request)
+        mail_subject = 'Activate your account'
+        message = render_to_string('django_registration/activation_email.txt', {
+            'user': user,
+            'domain': current_site.domain,
+            'activation_key': user.registrationprofile.activation_key,  # Adjust as per your model structure
+        })
+        to_email = user.email
+        email = EmailMessage(mail_subject, message, to=[to_email])
+        email.send()
+
+        return Response({'message': 'Registration successful. Activation email sent.'}, status=response.status_code)
+    
+    
+class ActivationView(BaseActivationView):
+    success_url = '/accounts/activation_complete/'
+    template_name = 'activation.html'

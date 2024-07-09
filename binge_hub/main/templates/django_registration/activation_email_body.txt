@@ -1,0 +1,8 @@
+Hallo,
+
+Klicken Sie auf den folgenden Link, um Ihr Konto bei BingeHub zu aktivieren:
+
+{{ scheme }}://{{ site.domain }}{% url 'django_registration_activate' activation_key %}
+
+Vielen Dank!
+Das BingeHub Team

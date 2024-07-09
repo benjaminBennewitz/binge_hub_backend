@@ -1,0 +1,11 @@
+<!-- Beispielinhalt: registration_form.html -->
+<html>
+<body>
+    <h2>Benutzerregistrierung</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Registrieren</button>
+    </form>
+</body>
+</html>
