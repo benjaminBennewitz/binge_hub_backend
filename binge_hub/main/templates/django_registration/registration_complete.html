@@ -31,21 +31,29 @@
 				background:yellow;
 				color:#070e27
 			}
-
-            input{
-                border:none;
+            a{
+                all:unset;
+                color:#ffffff;
+                transition:all 250ms;
+                padding: 8px 16px;
+                background:#2e33de;
                 border-radius:20px;
-                padding:4px 8px;
+            }
+            a:hover{
+                cursor:pointer;
+                transform:scale(1.1);
+                background:yellow;
+				color:#070e27
+            }
+            p{
+                margin:32px 0;
             }
 
         </style>
     </head>
 <body>
-    <h2>Benutzerregistrierung</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Registrieren</button>
-    </form>
+    <h2>Account activation almost completed</h2>
+    <p>Your BingeHub account has been successfully created.<br>Please activate your account by clicking on the link in the email</p>
+    <a href="{% url 'login' %}">Go to login</a>
 </body>
 </html>

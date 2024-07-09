@@ -1,8 +1,11 @@
-Hallo,
+Dear {{ user.username }},
 
-Klicken Sie auf den folgenden Link, um Ihr Konto bei BingeHub zu aktivieren:
+Thank you for registering with BINGEHUB. To complete your registration and verify your email address, please click the link below:
 
 {{ scheme }}://{{ site.domain }}{% url 'django_registration_activate' activation_key %}
 
-Vielen Dank!
-Das BingeHub Team
+If you did not create an account with us, please disregard this email.
+
+Best regards,
+
+Your BINGEHUB Team
