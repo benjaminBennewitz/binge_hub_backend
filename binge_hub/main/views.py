@@ -16,6 +16,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django_registration.backends.activation.views import ActivationView as BaseActivationView
+from django.middleware.csrf import get_token
+from django.http import JsonResponse
 
 
 class LoginView(ObtainAuthToken):
@@ -92,5 +94,27 @@ class RegisterView(generics.CreateAPIView):
     
     
 class ActivationView(BaseActivationView):
+    """
+    View class handling user activation.
+
+    Inherits from BaseActivationView and defines the success URL and
+    template used for the activation process.
+
+    Attributes:
+        success_url (str): URL where the user is redirected after successful activation.
+        template_name (str): Name of the template used for the activation view.
+    """
     success_url = '/accounts/activation_complete/'
     template_name = 'activation.html'
+    
+
+def get_csrf_token(request):
+    """
+    Retrieves the CSRF token for the current session.
+    Args:
+        request (HttpRequest): The HTTP request object.
+    Returns:
+        JsonResponse: JSON response containing the CSRF token.
+    """
+    csrf_token = get_token(request)
+    return JsonResponse({'csrf_token': csrf_token})

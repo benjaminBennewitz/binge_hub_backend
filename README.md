@@ -42,11 +42,27 @@ This project is managed by B². The main contributors are:
     source env/bin/activate  # On Windows: env\Scripts\activate
     pip install -r requirements.txt
     ```
-4. Run the migrations:
+4. Create .env file for email settings:
+    ```
+    create a new file in root directory (same level as manage.py) named ".env". There you have to set up the email settings with your datas.
+
+    EMAIL_HOST=smtp.office365.com
+    EMAIL_PORT=587
+    EMAIL_HOST_USER=your-email
+    EMAIL_HOST_PASSWORD=your-password
+    EMAIL_USE_TLS=True
+    EMAIL_USE_SSL=False
+    DEFAULT_FROM_EMAIL=your-email
+    ```
+5. Run the migrations:
     ```bash
     python manage.py migrate
     ```
-5. Start the development server:
+6. Create Superuser
+    ```bash
+    python manage.py migrate
+    ```
+7. Start the development server:
     ```bash
     python manage.py runserver
     ```

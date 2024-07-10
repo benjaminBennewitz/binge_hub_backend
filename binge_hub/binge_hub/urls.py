@@ -16,15 +16,18 @@ urlpatterns = [
     # Registration endpoint
     path('api/bingeHub/register/', views.RegisterView.as_view(), name='register'),
     
-    # URLs für die django-registration Two-Step-Verifizierung
+    # URLs for django-registration two-step verification
     path('accounts/', include('django_registration.backends.activation.urls')),
     
-    # Django Auth URLs für Login, Logout, Passwort ändern, Passwort zurücksetzen usw.
+    # Django Auth URLs for Login, Logout, password change, password reset.
     path('accounts/', include('django.contrib.auth.urls')),
+    
+    # Endpoint for CSRF-Token
+    path('api/get-csrf-token/', views.get_csrf_token, name='get_csrf_token'),
 ]
 
-# Spezifische URLs für django-registration anpassen
+# Customize specific URLs for django-registration
 urlpatterns += [
-    path('accounts/register/', views.RegisterView.as_view(), name='django_registration_register'),  # Hier sollte views.RegisterView verwendet werden, falls es eine spezielle View dafür gibt
-    path('accounts/activate/<str:activation_key>/', views.ActivationView.as_view(), name='django_registration_activate'),  # Hier sollte views.ActivationView verwendet werden
+    path('accounts/register/', views.RegisterView.as_view(), name='django_registration_register'),
+    path('accounts/activate/<str:activation_key>/', views.ActivationView.as_view(), name='django_registration_activate'),
 ]
