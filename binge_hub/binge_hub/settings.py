@@ -37,7 +37,10 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:4200'
+]
+
 CORS_ALLOW_CREDENTIALS = True
 
 
