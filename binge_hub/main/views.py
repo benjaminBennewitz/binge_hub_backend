@@ -84,7 +84,7 @@ class RegisterView(generics.CreateAPIView):
         message = render_to_string('django_registration/activation_email.txt', {
             'user': user,
             'domain': current_site.domain,
-            'activation_key': user.registrationprofile.activation_key,  # Adjust as per your model structure
+            'activation_key': user.registrationprofile.activation_key,
         })
         to_email = user.email
         email = EmailMessage(mail_subject, message, to=[to_email])
@@ -94,17 +94,8 @@ class RegisterView(generics.CreateAPIView):
     
     
 class ActivationView(BaseActivationView):
-    """
-    View class handling user activation.
 
-    Inherits from BaseActivationView and defines the success URL and
-    template used for the activation process.
-
-    Attributes:
-        success_url (str): URL where the user is redirected after successful activation.
-        template_name (str): Name of the template used for the activation view.
-    """
-    success_url = '/accounts/activation_complete/'
+    success_url = 'api/bingeHub/accounts/activation_complete/'
     template_name = 'activation.html'
     
 

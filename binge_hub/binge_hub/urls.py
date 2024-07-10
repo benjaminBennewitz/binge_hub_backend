@@ -14,7 +14,7 @@ urlpatterns = [
     path('api/bingeHub/login/', views.LoginView.as_view(), name='login'),
     
     # Registration endpoint
-    path('api/bingeHub/register/', views.RegisterView.as_view(), name='register'),
+    #path('api/bingeHub/register/', views.RegisterView.as_view(), name='register'),
     
     # URLs for django-registration two-step verification
     path('accounts/', include('django_registration.backends.activation.urls')),
