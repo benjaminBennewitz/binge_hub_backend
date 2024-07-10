@@ -95,7 +95,7 @@ class RegisterView(generics.CreateAPIView):
     
 class ActivationView(BaseActivationView):
 
-    success_url = 'api/bingeHub/accounts/activation_complete/'
+    success_url = 'accounts/activation_complete/'
     template_name = 'activation.html'
     
 
