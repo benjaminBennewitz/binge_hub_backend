@@ -5,47 +5,40 @@
         <base href="/">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/x-icon" href="favicon.ico">
-        <style>
-            body {
-                font-family: Roboto, sans-serif;
-                background-color: #070e27;
-                color: #ffffff;
-                max-width: 100%;
-                max-height:100vh;
-                margin: 0 auto;
-                padding: 64px;
-				border:none;
-				overflow:hidden;
-            }
-            h1 {
-                font-size:30px;
-            }
-			button{
-				background:#2e33de;
-				color:#ffffff;
-				border-radius:20px;
-				transition:all 250ms;
-				padding:8px 16px;
-			}
-			button:hover{
-				background:yellow;
-				color:#070e27
-			}
-
-            input{
-                border:none;
-                border-radius:20px;
-                padding:4px 8px;
-            }
-
-        </style>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/registration_form.css' %}">
+        <script src="{% static 'js/registration_form.js' %}"></script>
     </head>
 <body>
-    <h2>Benutzerregistrierung</h2>
-    <form method="post">
+<div class="register-bg">
+    <form id="registration-form" onsubmit="return validateForm()">
+        <div class="center"><h1>Sign Up</h1></div>
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Registrieren</button>
+
+        <p class="required">
+            <label for="id_username" class="required">Username:</label>
+            <input type="text" id="id_username" name="username" placeholder="Username">
+            <span class="helptext" id="id_username_helptext"></span>
+        </p>
+        <p class="required">
+            <label for="id_email" class="required">Email:</label>
+            <input type="email" id="id_email" name="email" placeholder="Email">
+            <span class="helptext" id="id_email_helptext"></span>
+        </p>
+        <p class="required">
+            <label for="id_password1" class="required">Password:</label>
+            <input type="password" id="id_password1" name="password1" placeholder="Password">
+            <span class="helptext" id="id_password1_helptext"></span>
+        </p>
+        <p class="required">
+            <label for="id_password2" class="required">Password confirmation:</label>
+            <input type="password" id="id_password2" name="password2" placeholder="Password confirmation">
+            <span class="helptext" id="id_password2_helptext"></span>
+        </p>
+
+        <div class="center"><button type="button" onclick="validateForm()">Get started</button></div>
+        <p>adsignOIIfij1884##d-$</p>
     </form>
+</div>
 </body>
 </html>
