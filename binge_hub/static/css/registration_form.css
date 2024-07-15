@@ -49,6 +49,11 @@ h1{
     align-items: center;
 
     background-color: rgba(7, 15, 39, 0.8);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .center{
@@ -60,7 +65,7 @@ h1{
 form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 
     background-color: #070f27;
@@ -69,8 +74,14 @@ form {
     padding: 32px;
     border-radius: 20px;
 
-    height: fit-content;
+    height:fit-content;
+    max-height: 600px;
+    overflow: auto;
     width: 350px;
+}
+
+form p:empty{
+    display: none;
 }
 
 .required{
@@ -80,13 +91,28 @@ form {
     width: 100%;
 }
 
+.required span{
+    color:orange;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.helptext {
+    display: none;
+}
+
+ul{
+    color:orange;
+    font-size: 14px;
+}
+
 form button {
     background-color: #2327ab !important;
     color: #f3f3f3 !important;
     border-radius: 20px;
     border: transparent;
     width: 180px;
-    height: 50px;
+    min-height: 50px;
     margin: 32px 0;
     transition: all 250ms;
     cursor: pointer;
@@ -100,6 +126,12 @@ form button:hover {
 
 form button[disabled] {
     opacity: 0.5;
+    cursor: not-allowed;
+}
+
+form button[disabled]:hover{
+    background-color: #2327ab !important;
+    color: #f3f3f3 !important;
 }
 
 form input::placeholder {
@@ -115,8 +147,140 @@ form input {
     background-color: transparent !important;
     border: 1.5px solid transparent !important;
     border-image: linear-gradient(to right, #09f1b8, #00a2ff, #ff00d2, #fed90f) 1 !important;
-    margin-top: 8px;
+
     padding:24px 16px;
+}
+
+header{
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    top:0;
+    left:0;
+
+    background: #070f27;
+}
+
+.flex-c-c{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:16px;
+}
+
+.material-icons{
+    font-size: 30px !important;
+    color:#ffffff;
+}
+
+.container{
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin:0 64px;
+}
+
+.logo{
+    color: #f3f3f3;
+    border: solid 3px;
+    border-image: linear-gradient(to right, #09f1b8, #00a2ff, #ff00d2, #fed90f) 1;
+    padding: 8px 18px;
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 0;
+}
+
+.logo:hover{
+    cursor: pointer;
+}
+
+a{
+    all:unset;
+}
+
+.login-btn{
+    background-color: #2327ab;
+    color: #f3f3f3;
+    border: none;
+    border-radius: 20px;
+    width: 120px;
+    height: 40px;
+    transition: all 250ms;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-btn:hover{
+    background-color: yellow;
+    color: #070f27;
+}
+
+.login-btn:hover .material-icons{
+    color: #070f24;
+}
+
+.login-btn .material-icons{
+    font-size: 18px !important;
+}
+
+.gap-32{
+    gap:32px;
+}
+
+.legals {
+    color: #ffffff;
+    opacity: 0.8;
+    padding: 8px 16px;
+    position: absolute;
+    bottom: 32px;
+    transition: all 250ms;
+}
+
+.legals p:hover {
+    cursor: pointer;
+    background: yellow;
+    color: #070f24;
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.legals p {
+    color: #ffffff;
+    opacity: 0.8;
+    padding: 8px 16px;
+    transition: all 250ms;
+    border-radius: 15px;
+}
+
+
+/* STYLES FOR SCROLLBARS */
+/* Chrome specific styles */
+.chrome{
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 50px yellow; 
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #2327ab; 
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(#2327ab, 0.7); 
+    }
+}
+
+/* Firefox specific styles */
+.firefox {
+    scrollbar-color: #2327ab yellow; 
+    * {
+        scrollbar-width: thin;
+    }
 }
 
 
@@ -137,5 +301,19 @@ form input {
     form {
         padding: 24px 32px;
         max-width: 95% !important;
+    }
+
+    .container{
+        margin:0 16px;
+    }
+
+    .logo p{
+       display: none;
+       margin:0;
+       padding:0;
+    }
+
+    .logo{
+        gap:0;
     }
 }
