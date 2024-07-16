@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'django_registration',
-    'main',
+    'main.apps.BingehubConfig',
 ]
 
 MIDDLEWARE = [
