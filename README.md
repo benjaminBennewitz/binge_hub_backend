@@ -66,6 +66,10 @@ This project is managed by B². The main contributors are:
     ```bash
     python manage.py runserver
     ```
+8. Check URLS and Ports:
+    ```right port/url
+    make sure to use port :8000 for backend otherwhise some links doesnt work
+    ```
 
 ## License
 
