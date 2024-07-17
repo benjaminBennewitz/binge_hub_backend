@@ -1,14 +1,7 @@
-from django.shortcuts import render
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import AllowAny
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
 from .serializers import RegisterSerializer
-from rest_framework.views import APIView
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import AuthenticationFailed
@@ -17,7 +10,13 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django_registration.backends.activation.views import ActivationView as BaseActivationView
 from django.middleware.csrf import get_token
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_decode
+from django.shortcuts import redirect
+from django.contrib.auth import get_user_model
+from django.views.generic import View
+
 
 
 class LoginView(ObtainAuthToken):
@@ -109,3 +108,23 @@ def get_csrf_token(request):
     """
     csrf_token = get_token(request)
     return JsonResponse({'csrf_token': csrf_token})
+
+
+class PasswordResetConfirmView(View):
+    def post(self, request, uidb64, token):
+        # Entschlüsseln der Benutzer-ID und Überprüfung des Tokens
+        try:
+            uid = urlsafe_base64_decode(uidb64).decode()
+            user = get_user_model().objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, get_user_model().DoesNotExist):
+            user = None
+
+        if user is not None and default_token_generator.check_token(user, token):
+            # Token ist gültig, speichere das neue Passwort
+            new_password = request.POST.get('password')
+            user.set_password(new_password)
+            user.save()
+            return redirect('password_reset_complete')  # Weiterleitung zur Bestätigungsseite
+        else:
+            # Token ungültig oder Benutzer nicht gefunden
+            return redirect('password_reset_invalid')  # Weiterleitung zur Fehlerseite

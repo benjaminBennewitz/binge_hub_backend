@@ -5,6 +5,7 @@ from main.views import LoginView, RegisterView
 from django_registration.backends.activation.views import RegistrationView, ActivationView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 # URL patterns for the Ticketeer application
 # This configuration routes URLs to views.
@@ -21,8 +22,14 @@ urlpatterns = [
     # Django Auth URLs for Login, Logout, password change, password reset.
     path('accounts/', include('django.contrib.auth.urls')),
     
+    # Endpoint for password reset
+    path('api/bingeHub/password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('api/bingeHub/password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('api/bingeHub/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('api/bingeHub/reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    
     # Endpoint for CSRF-Token
-    path('api/get-csrf-token/', views.get_csrf_token, name='get_csrf_token'),
+    path('api/bingeHub/get-csrf-token/', views.get_csrf_token, name='get_csrf_token'),
 ]
 
 # Customize specific URLs for django-registration
