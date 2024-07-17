@@ -6,7 +6,9 @@ class Video(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     video_file = models.FileField(upload_to='video', blank=True, null=True)
-    video_480p_path = models.CharField(max_length=255, blank=True, null=True)  # Neues Feld hinzufügen
+    video_480p_path = models.CharField(max_length=255, blank=True, null=True)
+    video_720p_path = models.CharField(max_length=255, blank=True, null=True)
+    video_1080p_path = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.title
