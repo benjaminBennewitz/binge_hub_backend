@@ -41,7 +41,7 @@ class LoginView(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         
-        # Check if user is activated (assuming 'is_active' is a field in your User model)
+        # Check if user is activated (assuming 'is_active' is a field in the User model)
         if not user.is_active:
             raise AuthenticationFailed('User account is not activated.')
 

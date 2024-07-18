@@ -39,10 +39,21 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:4200'
+    'http://localhost:4200',
+    'http://localhost',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'x-csrftoken',
+    'authorization',
+]
+
+CSRF_COOKIE_HTTPONLY = False
+
+PASSWORD_RESET_SUCCESS_URL = '/password_reset/done/'
 
 
 
