@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}BingeHub Reset Password{% endblock %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css"href="{% static 'css/registration_form.css' %}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="flex-c-c logo">
+          <i class="material-icons">play_circle</i>
+          <a href="http://localhost:4200/start"><p>BINGE HUB</p></a>
+        </div>
+        <div id="logIn">
+          <button class="login-btn flex-c-c" onclick="window.location.href='http://localhost:4200/login'">
+            <i class="material-icons">login</i>Login
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="register-bg">
+      <main>
+        {% block content %}
+        <!-- other templates goes here -->
+        {% endblock %}
+      </main>
+
+      <div class="flex-c-c gap-64 legals">
+        <a href="http://localhost:4200/privacy-policy"><p>Privacy Policy</p></a>
+        <a href="http://localhost:4200/imprint"><p>Imprint</p></a>
+      </div>
+    </div>
+  </body>
+</html>

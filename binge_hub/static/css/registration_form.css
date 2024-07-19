@@ -35,6 +35,13 @@ body {
     border:none;
 }
 
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+}
+
 h1{
     font-size: 30px;
     color:#ffffff;
@@ -98,7 +105,9 @@ form p:empty{
 }
 
 .helptext {
+    margin-top: 8px;
     display: none;
+    word-break: break-all;
 }
 
 ul{
@@ -253,6 +262,71 @@ a{
     transition: all 250ms;
     border-radius: 15px;
 }
+
+form button.reset-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    padding:0 16px;
+}
+
+form button.reset-btn:hover .material-icons {
+    color: #070f27;
+}
+
+button.reset-btn .material-icons{
+    margin-right:16px;
+}
+
+form.reset-input input{
+    height:0;
+    width: 300px;
+    max-width: 90%;
+}
+
+.reset-done{
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form.reset-confirm{
+    width: 400px;
+}
+
+form.reset-confirm input{
+    height:0;
+    width: 300px;
+    max-width: 90%;
+}
+
+form button.reset-confirm-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    padding:0 16px;
+}
+
+form button.reset-confirm-btn:hover .material-icons {
+    color: #070f27;
+}
+
+button.reset-confirm-btn .material-icons{
+    margin-right:16px;
+}
+
+.reeset-done{
+    color:#ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 
 
 /* STYLES FOR SCROLLBARS */
