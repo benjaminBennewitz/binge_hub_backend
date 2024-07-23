@@ -1,21 +1,48 @@
 from django import forms
 from django.http import JsonResponse
-from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from .serializers import RegisterSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
-from django.core.mail import EmailMessage
 from django_registration.backends.activation.views import ActivationView as BaseActivationView
 from django.middleware.csrf import get_token
 from django.contrib.auth.forms import PasswordResetForm
+from django_registration.backends.activation.views import RegistrationView
+from django.core.mail import EmailMultiAlternatives
+from django.urls import reverse_lazy
 
+class CustomRegistrationView(RegistrationView):
+    def send_activation_email(self, user):
+        """
+        Send an activation email to the user with a personalized link.
+        """
+        activation_key = self.get_activation_key(user)
+        current_site = get_current_site(self.request)
 
+        # Generate the activation link
+        activation_link = f"{self.request.scheme}://{current_site.domain}/accounts/activate/{activation_key}/"
 
+        # Email context
+        context = {
+            'user': user,
+            'activation_link': activation_link,
+        }
+
+        subject = 'Activate your BINGEHUB account'
+        html_content = render_to_string('django_registration/activation_email_body.html', context)
+        text_content = render_to_string('django_registration/activation_email_body.txt', context)
+        from_email = 'bb-dev@outlook.de'
+        to_email = user.email
+
+        # Create and send the email
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+        
+        
 class LoginView(ObtainAuthToken):
     """
     Custom login view to authenticate users and generate tokens.
@@ -48,53 +75,20 @@ class LoginView(ObtainAuthToken):
             'user_id': user.pk,
             'email': user.email
         })
-        
-        
-class RegisterView(generics.CreateAPIView):
+    
+    
+class CustomActivationView(BaseActivationView):
     """
-    View for user registration.
+    Handles the activation of user accounts after registration.
+
     Attributes:
-        serializer_class: Serializer class for user registration.
-        permission_classes: Permissions required for accessing this view (none for registration).
+        success_url (str): The URL to redirect to upon successful activation.
+        template_name (str): The name of the template to render for activation.
     """
+    success_url = reverse_lazy('activation_complete')
+    template_name = 'django_registration/activation_complete.html'
 
-    serializer_class = RegisterSerializer
-    permission_classes = []  # No authentication necessary for registration
-
-    def create(self, request, *args, **kwargs):
-        """
-        Handle POST requests for user registration.
-        Args:
-            request: HTTP request object.
-            *args: Additional arguments.
-            **kwargs: Additional keyword arguments.
-        Returns:
-            Response: JSON response indicating success or failure of registration.
-        """
-        response = super().create(request, *args, **kwargs)
-        user = response.data.get('user')  # Assuming your serializer returns 'user' in response data
-
-        # Send activation email
-        current_site = get_current_site(request)
-        mail_subject = 'Activate your account'
-        message = render_to_string('django_registration/activation_email.txt', {
-            'user': user,
-            'domain': current_site.domain,
-            'activation_key': user.registrationprofile.activation_key,
-        })
-        to_email = user.email
-        email = EmailMessage(mail_subject, message, to=[to_email])
-        email.send()
-
-        return Response({'message': 'Registration successful. Activation email sent.'}, status=response.status_code)
     
-    
-class ActivationView(BaseActivationView):
-
-    success_url = 'accounts/activation_complete/'
-    template_name = 'activation.html'
-    
-
 def get_csrf_token(request):
     """
     Retrieves the CSRF token for the current session.
@@ -108,6 +102,9 @@ def get_csrf_token(request):
         
 
 class UserPasswordResetForm(PasswordResetForm):
+    """
+    Custom form for resetting a user's password.
+    """
     email = forms.EmailField(
         max_length=254,
         widget=forms.EmailInput(attrs={'autocomplete': 'email', 'class': 'form-control'})

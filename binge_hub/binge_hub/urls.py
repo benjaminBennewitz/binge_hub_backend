@@ -1,14 +1,16 @@
 from django.contrib import admin
 from django.urls import path, include
 from main import views
-from main.views import LoginView, RegisterView, UserPasswordResetForm
+from main.views import CustomActivationView, CustomRegistrationView, LoginView, UserPasswordResetForm
 from django_registration.backends.activation.views import RegistrationView, ActivationView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import PasswordResetForm
+from django.views.generic import TemplateView
+from debug_toolbar.toolbar import debug_toolbar_urls
 
-# URL patterns for the Ticketeer application
+# URL patterns for the BINGEHUB application
 # This configuration routes URLs to views.
 
 urlpatterns = [
@@ -17,12 +19,16 @@ urlpatterns = [
     # Login endpoint
     path('api/bingeHub/login/', views.LoginView.as_view(), name='login'),
 
-    # URLs for django-registration two-step verification
+    # Registration view
+    path('accounts/register/', CustomRegistrationView.as_view(), name='django_registration_register'),
+    # Activation view
+    path('accounts/activate/<str:activation_key>/', CustomActivationView.as_view(), name='activation_complete'),
+    # Include the default django-registration URLs
     path('accounts/', include('django_registration.backends.activation.urls')),
+  
 
     # Django Auth URLs for Login, Logout, password change, password reset.
     path('accounts/', include('django.contrib.auth.urls')),
-
     # Endpoint for password reset
     path('api/bingeHub/password_reset/', auth_views.PasswordResetView.as_view(template_name='reset_password/password_reset_form.html',form_class=UserPasswordResetForm), name='password_reset'),
     path('api/bingeHub/password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='reset_password/password_reset_done.html'), name='password_reset_done'),
@@ -32,18 +38,9 @@ urlpatterns = [
     # Endpoint for CSRF-Token
     path('api/bingeHub/get-csrf-token/',
          views.get_csrf_token, name='get_csrf_token'),
-]
+]+ debug_toolbar_urls()
 
-# Customize specific URLs for django-registration
-urlpatterns += [
-    path('accounts/register/', views.RegisterView.as_view(),
-         name='django_registration_register'),
-    path('accounts/activate/<str:activation_key>/',
-         views.ActivationView.as_view(), name='django_registration_activate'),
-]
-
+# set static folder
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL,
-                          document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

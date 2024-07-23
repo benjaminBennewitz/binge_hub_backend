@@ -55,6 +55,13 @@ CSRF_COOKIE_HTTPONLY = False
 
 PASSWORD_RESET_SUCCESS_URL = '/password_reset/done/'
 
+SITE_ID = 1
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+    'localhost',
+]
+
 
 
 # Application definition
@@ -62,6 +69,7 @@ PASSWORD_RESET_SUCCESS_URL = '/password_reset/done/'
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -71,6 +79,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_registration',
     'main.apps.BingehubConfig',
+    #'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -82,6 +91,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'binge_hub.urls'
@@ -89,7 +99,7 @@ ROOT_URLCONF = 'binge_hub.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

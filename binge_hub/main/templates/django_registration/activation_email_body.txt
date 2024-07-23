@@ -2,10 +2,9 @@ Dear {{ user.username }},
 
 Thank you for registering with BINGEHUB. To complete your registration and verify your email address, please click the link below:
 
-{{ scheme }}://{{ site.domain }}{% url 'django_registration_activate' activation_key %}
+{{ activation_link }}
 
 If you did not create an account with us, please disregard this email.
 
 Best regards,
-
 Your BINGEHUB Team
