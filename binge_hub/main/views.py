@@ -91,10 +91,8 @@ class CustomActivationView(BaseActivationView):
     Handles the activation of user accounts after registration.
 
     Attributes:
-        success_url (str): The URL to redirect to upon successful activation.
         template_name (str): The name of the template to render for activation.
     """
-    success_url = reverse_lazy('activation_complete')
     template_name = 'django_registration/activation_complete.html'
 
     
