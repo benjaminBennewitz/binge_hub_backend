@@ -13,6 +13,8 @@ from django.contrib.auth.forms import PasswordResetForm
 from django_registration.backends.activation.views import RegistrationView
 from django.core.mail import EmailMultiAlternatives
 from django.urls import reverse_lazy
+from django.utils.html import strip_tags
+from email.mime.image import MIMEImage
 
 class CustomRegistrationView(RegistrationView):
     def send_activation_email(self, user):
@@ -33,13 +35,20 @@ class CustomRegistrationView(RegistrationView):
 
         subject = 'Activate your BINGEHUB account'
         html_content = render_to_string('django_registration/activation_email_body.html', context)
-        text_content = render_to_string('django_registration/activation_email_body.txt', context)
+        text_content = strip_tags(html_content)  # Fallback for clients that do not support HTML
         from_email = 'bb-dev@outlook.de'
         to_email = user.email
 
-        # Create and send the email
+        # Create the email
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
         msg.attach_alternative(html_content, "text/html")
+
+        # Attach the logo image
+        with open('static/media/img/logo.png', 'rb') as img:
+            logo = MIMEImage(img.read())
+            logo.add_header('Content-ID', '<logo>')
+            msg.attach(logo)
+
         msg.send()
         
         
