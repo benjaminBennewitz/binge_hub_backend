@@ -2,8 +2,9 @@ from .models import Video
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 from main.tasks import convert_480p, convert_720p, convert_1080p
-import os
 from django.conf import settings
+import os
+import django_rq
 
 
 """
@@ -27,10 +28,11 @@ def video_post_save(sender, instance, created, **kwargs):
         # Save the instance with updated paths
         instance.save()
 
-        # Run conversion tasks synchronously with the new target paths
-        convert_480p(source_path, os.path.join(video_dir, base_name + '_480p.mp4'))
-        convert_720p(source_path, os.path.join(video_dir, base_name + '_720p.mp4'))
-        convert_1080p(source_path, os.path.join(video_dir, base_name + '_1080p.mp4'))
+        # Queue
+        queue = django_rq.get_queue('default')
+        queue.enqueue(convert_480p, source_path, os.path.join(video_dir, base_name + '_480p.mp4'))
+        queue.enqueue(convert_720p, source_path, os.path.join(video_dir, base_name + '_720p.mp4'))
+        queue.enqueue(convert_1080p, source_path, os.path.join(video_dir, base_name + '_1080p.mp4'))
       
   
 """
