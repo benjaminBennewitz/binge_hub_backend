@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 from main.tasks import convert_480p, convert_720p, convert_1080p
 import os
+from django.conf import settings
 
 
 """
@@ -13,17 +14,23 @@ def video_post_save(sender, instance, created, **kwargs):
     if created:
         # Convert videos and update paths
         source_path = instance.video_file.path
-        instance.video_480p_path = source_path + '_480p.mp4'
-        instance.video_720p_path = source_path + '_720p.mp4'
-        instance.video_1080p_path = source_path + '_1080p.mp4'
+
+        # Get the base name of the video file without the extension
+        base_name = os.path.splitext(os.path.basename(source_path))[0]
+
+        # Create paths for the converted videos in the same directory as the source video
+        video_dir = os.path.dirname(source_path)
+        instance.video_480p_path = os.path.join('video', base_name + '_480p.mp4')
+        instance.video_720p_path = os.path.join('video', base_name + '_720p.mp4')
+        instance.video_1080p_path = os.path.join('video', base_name + '_1080p.mp4')
 
         # Save the instance with updated paths
         instance.save()
 
-        # Run conversion tasks synchronously
-        convert_480p(source_path)
-        convert_720p(source_path)
-        convert_1080p(source_path)
+        # Run conversion tasks synchronously with the new target paths
+        convert_480p(source_path, os.path.join(video_dir, base_name + '_480p.mp4'))
+        convert_720p(source_path, os.path.join(video_dir, base_name + '_720p.mp4'))
+        convert_1080p(source_path, os.path.join(video_dir, base_name + '_1080p.mp4'))
       
   
 """
@@ -39,17 +46,15 @@ def delete_video_files(sender, instance, **kwargs):
             print('original video deleted')
 
     # Delete converted video files
-    if instance.video_480p_path:
-        if os.path.isfile(instance.video_480p_path):
-            os.remove(instance.video_480p_path)
-            print('480p video deleted')
+    def delete_file(file_path):
+        if file_path:
+            # Convert relative path to absolute path
+            absolute_path = os.path.join(settings.MEDIA_ROOT, file_path)
+            if os.path.isfile(absolute_path):
+                os.remove(absolute_path)
+                print(f'{file_path} deleted')
 
-    if instance.video_720p_path:
-        if os.path.isfile(instance.video_720p_path):
-            os.remove(instance.video_720p_path)
-            print('720p video deleted')
-
-    if instance.video_1080p_path:
-        if os.path.isfile(instance.video_1080p_path):
-            os.remove(instance.video_1080p_path)
-            print('1080p video deleted')
+    # Delete converted video files
+    delete_file(instance.video_480p_path)
+    delete_file(instance.video_720p_path)
+    delete_file(instance.video_1080p_path)

@@ -36,7 +36,11 @@ urlpatterns = [
     path('api/bingeHub/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='reset_password/password_reset_complete.html'), name='password_reset_complete'),
 
     # Endpoint for CSRF-Token
-    path('api/bingeHub/get-csrf-token/',views.get_csrf_token, name='get_csrf_token'),]+ debug_toolbar_urls()
+    path('api/bingeHub/get-csrf-token/',views.get_csrf_token, name='get_csrf_token'),
+    
+    # Django-RQ
+    path('django-rq/', include('django_rq.urls'))
+]   + debug_toolbar_urls()
 
 # set static folder
 if settings.DEBUG:
