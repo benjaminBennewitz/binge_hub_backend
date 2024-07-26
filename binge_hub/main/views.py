@@ -20,14 +20,12 @@ from django.views.decorators.cache import cache_page
 from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework import status
-from django.utils.decorators import method_decorator
 from .serializers import VideoSerializer
 from .models import Video
 from rest_framework.permissions import IsAuthenticated
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
-#@method_decorator(cache_page(CACHE_TTL), name='dispatch')
 class VideoListView(APIView):
     """
     View to list all videos in the system.
@@ -39,8 +37,6 @@ class VideoListView(APIView):
         serializer = VideoSerializer(videos, many=True)
         return Response(serializer.data)
 
-
-    
 
 class CustomRegistrationView(RegistrationView):
     def send_activation_email(self, user):
@@ -125,8 +121,6 @@ class CustomActivationView(BaseActivationView):
 def get_csrf_token(request):
     """
     Retrieves the CSRF token for the current session.
-    Args:
-        request (HttpRequest): The HTTP request object.
     Returns:
         JsonResponse: JSON response containing the CSRF token.
     """
