@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from main import views
-from main.views import CustomActivationView, CustomRegistrationView, LoginView, UserPasswordResetForm
+from main.views import CustomActivationView, CustomRegistrationView, LoginView, UserPasswordResetForm, VideoListView
 from django_registration.backends.activation.views import RegistrationView, ActivationView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -18,6 +18,8 @@ urlpatterns = [
 
     # Login endpoint
     path('api/bingeHub/login/', views.LoginView.as_view(), name='login'),
+    # Videos endpoint
+    path('api/bingeHub/videos/', VideoListView.as_view(), name='video-list'),
 
     # Registration view
     path('accounts/register/', CustomRegistrationView.as_view(), name='django_registration_register'),
