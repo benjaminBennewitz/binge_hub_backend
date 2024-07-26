@@ -1,0 +1,10 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django Admin Panel') }}{% endblock %}
+
+{% block branding %}
+<img src="/static/media/img/logo.png" alt="logo" width="120px" heigth="auto" style="margin:0 32px 0 0">
+<h1 id="site-name"><a href="{% url 'admin:index' %}" style="color:#ffffff">BINGEHUB Admin Panel</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
