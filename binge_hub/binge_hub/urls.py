@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from main import views
-from main.views import CustomActivationView, CustomRegistrationView, LoginView, UserPasswordResetForm, VideoListView
+from main.views import CustomActivationView, CustomRegistrationView, LoginView, UserPasswordResetForm, VideoListView, CustomPasswordResetView
 from django_registration.backends.activation.views import RegistrationView, ActivationView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -31,8 +31,8 @@ urlpatterns = [
 
     # Django Auth URLs for Login, Logout, password change, password reset.
     path('accounts/', include('django.contrib.auth.urls')),
-    # Endpoint for password reset
-    path('api/bingeHub/password_reset/', auth_views.PasswordResetView.as_view(template_name='reset_password/password_reset_form.html',form_class=UserPasswordResetForm), name='password_reset'),
+
+    path('api/bingeHub/password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
     path('api/bingeHub/password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='reset_password/password_reset_done.html'), name='password_reset_done'),
     path('api/bingeHub/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='reset_password/password_reset_confirm.html'), name='password_reset_confirm'),
     path('api/bingeHub/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='reset_password/password_reset_complete.html'), name='password_reset_complete'),
