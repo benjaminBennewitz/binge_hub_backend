@@ -4,6 +4,7 @@
 *.pyc
 __pycache__
 /media/
+/binge_hub/media/
 db.sqlite3
 
 # PostgreSQL
