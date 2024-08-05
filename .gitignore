@@ -3,7 +3,7 @@
 *.pot
 *.pyc
 __pycache__
-/media/video/
+/media/
 db.sqlite3
 
 # PostgreSQL
