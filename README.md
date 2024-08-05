@@ -62,11 +62,26 @@ This project is managed by B². The main contributors are:
     ```bash
     python manage.py migrate
     ```
-7. Start the development server:
+7. Change Site ID
+    ```bash
+    login to Django Backend with superuser an go to table "Sites", here you change example.com to localhost:8000
+    ```
+8. Start the Django development server:
     ```bash
     python manage.py runserver
     ```
-8. Check URLS and Ports:
+9. Start the RQ server
+    First: start Redis in an Ubuntu (WSL) Terminal
+    ```bash
+    sudo service redis-server start
+    ```
+    Second: Check if Redis working
+    ```bash
+    redis-cli
+    ping
+    ANSWERS: PONG
+    ```
+10. Check URLS and Ports:
     ```right port/url
     make sure to use port :8000 for backend otherwhise some links doesnt work
     ```

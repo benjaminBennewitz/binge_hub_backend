@@ -6,21 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/registration_form.css' %}"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/registration_form.css' %}"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <script src="{% static 'js/registration_form.js' %}"></script>
   </head>
 
   <body>
-
     <header>
       <div class="container">
         <div class="flex-c-c logo">
-            <i class="material-icons">play_circle</i>
-            <a href="http://localhost:4200/start"><p>BINGE HUB</p></a>
+          <i class="material-icons">play_circle</i>
+          <a href="http://localhost:4200/start"><p>BINGE HUB</p></a>
         </div>
         <div id="logIn">
-          <button class="login-btn flex-c-c" onclick="window.location.href='http://localhost:4200/login'">
+          <button
+            class="login-btn flex-c-c"
+            onclick="window.location.href='{{ base_url }}/login'"
+          >
             <i class="material-icons">login</i>Login
           </button>
         </div>
@@ -28,37 +37,35 @@
     </header>
 
     <div class="register-bg">
+      <form method="post">
+        <div class="center"><h1>Sign Up</h1></div>
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit">Get Startet</button>
+      </form>
 
-        <form method="post">
-            <div class="center"><h1>Sign Up</h1></div>
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Get Startet</button>
-        </form>
-
-        <div class="flex-c-c gap-64 legals">
-            <a href="http://localhost:4200/privacy-policy"><p>Privacy Policy</p></a>
-            <a href="http://localhost:4200/imprint"><p>Imprint</p></a>
-        </div>
+      <div class="flex-c-c gap-64 legals">
+        <a href="http://localhost:4200/privacy-policy"><p>Privacy Policy</p></a>
+        <a href="http://localhost:4200/imprint"><p>Imprint</p></a>
+      </div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let userAgent = navigator.userAgent;
-            var isFirefox = typeof InstallTrigger !== 'undefined';
-    
-            //console.log("isFirefox: ", isFirefox);
-            //console.log("userAgent: ", userAgent);
-    
-            if (/Chrome/.test(userAgent) && !/Chromium/.test(userAgent)) {
-                document.body.classList.add('chrome');
-                //console.log("Chrome detected, class added.");
-            }
-            if (isFirefox) {
-                document.body.classList.add('firefox');
-                //console.log("Firefox detected, class added.");
-            }
-        });
-      </script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let userAgent = navigator.userAgent;
+        var isFirefox = typeof InstallTrigger !== "undefined";
+
+        //console.log("isFirefox: ", isFirefox);
+        //console.log("userAgent: ", userAgent);
+
+        if (/Chrome/.test(userAgent) && !/Chromium/.test(userAgent)) {
+          document.body.classList.add("chrome");
+          //console.log("Chrome detected, class added.");
+        }
+        if (isFirefox) {
+          document.body.classList.add("firefox");
+          //console.log("Firefox detected, class added.");
+        }
+      });
+    </script>
   </body>
 </html>
