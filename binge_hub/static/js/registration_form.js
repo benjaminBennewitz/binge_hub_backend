@@ -1,5 +1,15 @@
 document.addEventListener('DOMContentLoaded', (event) => {
 
+      /**
+     * helper function for clearing the inputs after submit
+     */
+      function clearInputs(){
+        userNameInput.value = '';
+        emailInput.value = '';
+        pass1Input.value = '';
+        pass2Input.value = '';
+    }
+
     // span elements/error messages id´s
     let usernameErr = document.getElementById('id_username_helptext');
     let emailErr = document.getElementById('id_email_helptext');

@@ -70,7 +70,7 @@ This project is managed by B². The main contributors are:
     ```bash
     python manage.py runserver
     ```
-9. Start the RQ server
+9. Start the RQ server:
     First: start Redis in an Ubuntu (WSL) Terminal
     ```bash
     sudo service redis-server start

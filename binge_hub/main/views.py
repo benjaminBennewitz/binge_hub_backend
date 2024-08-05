@@ -60,7 +60,7 @@ class CustomRegistrationView(RegistrationView):
         subject = 'Activate your BINGEHUB account'
         html_content = render_to_string('django_registration/activation_email_body.html', context)
         text_content = strip_tags(html_content)  # Fallback for clients that do not support HTML
-        from_email = 'bb-dev@outlook.de'
+        from_email = settings.EMAIL_HOST_USER
         to_email = user.email
 
         # Create the email
