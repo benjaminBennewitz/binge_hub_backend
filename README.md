@@ -44,7 +44,7 @@ This project is managed by B². The main contributors are:
     ```
 4. Create .env file for email settings:
     ```
-    create a new file in root directory (same level as manage.py) named ".env". There you have to set up the email settings with your datas.
+    create a new file in root directory named ".env". There you have to set up the email settings with your datas.
 
     EMAIL_HOST=smtp.office365.com
     EMAIL_PORT=587

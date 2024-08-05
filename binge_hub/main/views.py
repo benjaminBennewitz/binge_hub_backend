@@ -23,6 +23,8 @@ from rest_framework import status
 from .serializers import VideoSerializer
 from .models import Video
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.views import PasswordResetView
+from django.urls import reverse_lazy
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
@@ -74,6 +76,37 @@ class CustomRegistrationView(RegistrationView):
         msg.send()
         
         
+class CustomActivationView(BaseActivationView):
+    """
+    Handles the activation of user accounts after registration.
+
+    Attributes:
+        template_name (str): The name of the template to render for activation.
+    """
+    template_name = 'django_registration/activation_complete.html'
+        
+        
+class UserPasswordResetForm(PasswordResetForm):
+    """
+    Custom form for resetting a user's password.
+    """
+    email = forms.EmailField(
+        max_length=254,
+        widget=forms.EmailInput(attrs={'autocomplete': 'email', 'class': 'form-control'})
+    )
+    
+    
+class CustomPasswordResetView(PasswordResetView):
+    """
+    Custom email template is sending with reset link.
+    """
+    email_template_name = 'reset_password/password_reset_email.html'
+    html_email_template_name = 'reset_password/password_reset_email.html'
+    template_name = 'reset_password/password_reset_form.html'
+    form_class = UserPasswordResetForm
+    success_url = reverse_lazy('password_reset_done')
+        
+        
 class LoginView(ObtainAuthToken):
     """
     Custom login view to authenticate users and generate tokens.
@@ -107,17 +140,7 @@ class LoginView(ObtainAuthToken):
             'email': user.email
         })
     
-    
-class CustomActivationView(BaseActivationView):
-    """
-    Handles the activation of user accounts after registration.
 
-    Attributes:
-        template_name (str): The name of the template to render for activation.
-    """
-    template_name = 'django_registration/activation_complete.html'
-
-    
 def get_csrf_token(request):
     """
     Retrieves the CSRF token for the current session.
@@ -126,13 +149,3 @@ def get_csrf_token(request):
     """
     csrf_token = get_token(request)
     return JsonResponse({'csrf_token': csrf_token})
-        
-
-class UserPasswordResetForm(PasswordResetForm):
-    """
-    Custom form for resetting a user's password.
-    """
-    email = forms.EmailField(
-        max_length=254,
-        widget=forms.EmailInput(attrs={'autocomplete': 'email', 'class': 'form-control'})
-    )
