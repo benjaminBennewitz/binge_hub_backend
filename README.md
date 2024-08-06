@@ -56,7 +56,7 @@ This project is managed by B². The main contributors are:
     ```
 5. Run the migrations:
     ```bash
-    python manage.py migrate
+    python manage.py makemigrations
     ```
 6. Create Superuser
     ```bash

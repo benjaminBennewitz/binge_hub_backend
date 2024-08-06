@@ -28,7 +28,7 @@
         <div id="logIn">
           <button
             class="login-btn flex-c-c"
-            onclick="window.location.href='{{ base_url }}/login'"
+            onclick="window.location.href='http://localhost:4200/login'"
           >
             <i class="material-icons">login</i>Login
           </button>
@@ -42,6 +42,8 @@
         {% csrf_token %} {{ form.as_p }}
         <button type="submit">Get Startet</button>
       </form>
+
+      <div id="error-message" style="display:none; color:red;"></div>
 
       <div class="flex-c-c gap-64 legals">
         <a href="http://localhost:4200/privacy-policy"><p>Privacy Policy</p></a>
