@@ -1,13 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
 from main import views
-from main.views import CustomActivationView, CustomRegistrationView, LoginView, UserPasswordResetForm, VideoListView, CustomPasswordResetView
-from django_registration.backends.activation.views import RegistrationView, ActivationView
+from main.views import CustomActivationView, CustomRegistrationView, VideoListView, CustomPasswordResetView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.forms import PasswordResetForm
-from django.views.generic import TemplateView
 from debug_toolbar.toolbar import debug_toolbar_urls
 
 # URL patterns for the BINGEHUB application

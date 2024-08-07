@@ -16,10 +16,8 @@ from django.urls import reverse_lazy
 from django.utils.html import strip_tags
 from email.mime.image import MIMEImage
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
-from django.views.decorators.cache import cache_page
 from django.conf import settings
 from rest_framework.views import APIView
-from rest_framework import status
 from .serializers import VideoSerializer
 from .models import Video
 from rest_framework.permissions import IsAuthenticated
